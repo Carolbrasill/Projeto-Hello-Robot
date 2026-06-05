@@ -1,4 +1,10 @@
-# Projeto FRC 2020 - Controle de Tração e Telemetria
+<p align="center">
+  <img src="https://vectorseek.com/wp-content/uploads/2023/08/WorldSkills-Logo-Vector.svg-.png" alt="WorldSkills Logo" width="250"/>
+</p>
+
+<h1 align="center"> WorldsSkills - #23 Robótica Móvel </h1>
+
+# Projeto Hello Robot utilizando o VSCode FRC 2020 - Controle de Tração e Telemetria
 
 Este projeto foi desenvolvido em Java utilizando o ecossistema WPILib (versão 2020) para o controle de um robô da FRC. O foco da atividade foi a implementação de um sistema de tração por joystick e a configuração de mensagens de telemetria para monitoramento dos estados do robô.
 
@@ -51,3 +57,25 @@ Caso necessite compilar ou enviar o projeto novamente através do terminal, util
     ```powershell
     ./gradlew simulateJava --args="--nogui"
     ```
+
+---
+
+## 📅 Diário de Bordo & Atualizações Diárias
+
+### 🔹 Etapa 1: Implementação da Lógica Base
+* Desenvolvimento inicial da estrutura Command-Based. Mapeamento dos motores `Spark(0)` e `Spark(1)` e criação do método `andar()`.
+* Vinculação da telemetria no arquivo principal do robô (`Robot.java`).
+
+### 🔹 Etapa 2: Debug de Sintaxe e Ambiente (Erros do PowerShell)
+* **Problema:** Tentativa de execução do simulador utilizando barras invertidas (`\gradlew simulateJava`), gerando erro de comando não reconhecido no PowerShell.
+* **Solução:** Correção da sintaxe do Gradle Wrapper para o padrão Unix/PowerShell local usando `./gradlew simulateJava`. O código compilou perfeitamente (`BUILD SUCCESSFUL`).
+* **Tratamento de Trava do Simulador:** Devido a bloqueios locais na máquina do laboratório que impediam a abertura da interface do MockDS, a validação foi adaptada para leitura de logs diretamente no terminal e forçada via parâmetros `--nogui`.
+
+### 🔹 Etapa 3: Amarração de Agendamento (Default Command)
+* **Problema:** Os motores não respondiam ao joystick em modo Teleoperado porque o subsistema `DriveTrain` não tinha um gatilho automático de chamada.
+* **Solução:** Implementação do método `setDefaultCommand(new DriveWithJoystick());` dentro de `initDefaultCommand()`. Com isso, a WPILib passou a agendar o loop de leitura do controle por padrão.
+
+### 🔹 Etapa 4: Resolução de Conflitos do Git e Envio ao GitHub
+* **Problema:** Erro de repositório remoto duplicado (`error: remote origin already exists`) ao tentar reconfigurar o Git após uma desconfiguração local na máquina.
+* **Solução:** Limpeza e sincronização forçada das branches locais e remotas apontando para a branch padrão `main`.
+* **Autenticação:** Finalização do processo de envio contornando o travamento de credenciais do terminal via autenticação do navegador ("Git Ecosystem"). Código e documentação consolidados na nuvem via `git push -u origin main --force`.
